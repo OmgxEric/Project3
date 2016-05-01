@@ -33,6 +33,9 @@
     <ClInclude Include="File.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Explorer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

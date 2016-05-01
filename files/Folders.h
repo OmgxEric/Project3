@@ -26,46 +26,53 @@ public:
 		filesInFolder;
 	}
 
-	//identifies where to insert file according to file path, inserts file name and size into map object with the
-	//file name as the ID
-	//CONSIDER REVISING
-	void addFile(std::string filePath, std::string fName, int fSize)
+	//inserts file name and size into map object with the file name as the ID
+	bool addFileToFolder(std::string fName, int fSize)
 	{
-		std::pair <std::string, bool> fileInsert = std::map<std::string, int>::value_type(fName, fSize);
+		int originalSize = filesInFolder.size();
+
+		filesInFolder[fName] = (fName, fSize);
+
+		return originalSize == filesInFolder.size();
 	}
 
-	//for the root folder, which will not need a file path
-	void addFolder(std::string sName)
-	{
-		Folders newFolder(sName);
+	////for the root folder, which will not need a file path
+	//void addFolder(std::string sName)
+	//{
+	//	Folders newFolder(sName);
 
-		if (!folderTree.insert(newFolder))
-			std::cout << "Folder already exists!" << std::endl;
-		else
-			std::cout << "Folder created." << std::endl;
-	}
+	//	if (!folderTree.insert(newFolder))
+	//		std::cout << "Folder already exists!" << std::endl;
+	//	else
+	//		std::cout << "Folder created." << std::endl;
+	//}
 
-	//for all subfolders of the root folder
-	void addFolder(std::string sPath, std::string sName)
-	{
-		Folders newFolder(sPath, sName);
+	////for all subfolders of the root folder
+	//void addFolder(std::string sPath, std::string sName)
+	//{
+	//	Folders newFolder(sPath, sName);
 
-		if (!folderTree.insert(newFolder))
-			std::cout << "Folder already exists!" << std::endl;
-		else
-			std::cout << "Folder created." << std::endl;
-	}
+	//	if (!folderTree.insert(newFolder))
+	//		std::cout << "Folder already exists!" << std::endl;
+	//	else
+	//		std::cout << "Folder created." << std::endl;
+	//}
 
-	void folderSizewrapper() 
+	void folderSizewrapper(std::string path) 
 	{
 		int filesize = 0;
-		folderSize(folderTree, filesize);
+		Folders sFolder(path);
+
+		AVLNode<Folders> originFolder = folderTree.find(sFolder);
+		folderSize(&originFolder, filesize);
 	}
 
-	int folderSize(AVL_Tree localroot, int filesize)
+	int folderSize(AVLNode<Folders>* localroot, int filesize)
 	{
 		//add all the file sizes together in the map object
 		std::map<std::string, int>::iterator it;
+
+
 		for (it = filesInFolder.begin(); it != filesInFolder.end(); it++)
 		{
 			it->second += filesize;
