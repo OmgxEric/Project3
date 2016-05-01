@@ -64,21 +64,24 @@ public:
 		Folders sFolder(path);
 
 		AVLNode<Folders> originFolder = folderTree.find(sFolder);
-		folderSize(&originFolder, filesize);
+		folderSize(&originFolder, path, filesize);
 	}
 
-	int folderSize(AVLNode<Folders>* localroot, int filesize)
+	int folderSize(AVLNode<Folders>* localroot, std::string fPath, int filesize)
 	{
 		//add all the file sizes together in the map object
 		std::map<std::string, int>::iterator it;
 
-
-		for (it = filesInFolder.begin(); it != filesInFolder.end(); it++)
+		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
+		if (localroot->data.get_folderPath().substr(0,fPath.size()-1) == fPath)
 		{
-			it->second += filesize;
+			for (it = filesInFolder.begin(); it != filesInFolder.end(); it++)
+			{
+				it->second += filesize;
+			}
 		}
-		folderSize(localroot->left, filesize);
-		folderSize(localroot->right, filesize);
+		folderSize(localroot->left, fPath, filesize);
+		folderSize(localroot->right, fPath, filesize);
 		return filesize;
 	}
 

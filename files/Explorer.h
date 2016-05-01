@@ -32,10 +32,10 @@ public:
 	void addFile(std::string filePath, std::string fName, int fSize)
 	{
 		Folders fldr(filePath);
-		Folders* fldrptr = &folderTree.find(fldr);
+		AVLNode<Folders> fldrptr = folderTree.find(fldr);
 
 		//if function returns true, the size of the file list did not change, meaning the file was not added
-		if (fldrptr->addFileToFolder(fName, fSize))
+		if (fldrptr.data.addFileToFolder(fName, fSize))
 			std::cout << "File already exists! Please use another name for the file." << std::endl;
 		else
 			std::cout << "File added successfully." << std::endl;
