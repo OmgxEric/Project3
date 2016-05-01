@@ -56,9 +56,22 @@ public:
 			std::cout << "Folder created." << std::endl;
 	}
 
-	int folderSize()
+	void folderSizewrapper() 
+	{
+		int filesize = 0;
+		folderSize(folderTree, filesize);
+	}
+
+	void folderSize(AVL_Tree localroot, int filesize)
 	{
 		//add all the file sizes together in the map object
+		std::map<std::string, int>::iterator it;
+		for (it = filesInFolder.begin(); it != filesInFolder.end(); it++)
+		{
+			it->second += filesize;
+		}
+		folderSize(localroot->left, filesize);
+		folderSize(localroot->right, filesize);
 	}
 
 	bool operator <(Folders& folder1)
