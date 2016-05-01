@@ -62,7 +62,7 @@ public:
 		folderSize(folderTree, filesize);
 	}
 
-	void folderSize(AVL_Tree localroot, int filesize)
+	int folderSize(AVL_Tree localroot, int filesize)
 	{
 		//add all the file sizes together in the map object
 		std::map<std::string, int>::iterator it;
@@ -72,6 +72,7 @@ public:
 		}
 		folderSize(localroot->left, filesize);
 		folderSize(localroot->right, filesize);
+		return filesize;
 	}
 
 	bool operator <(Folders& folder1)
