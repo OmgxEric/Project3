@@ -22,6 +22,7 @@
     <ClInclude Include="AVL_Node.h" />
     <ClInclude Include="AVL_Tree.h" />
     <ClInclude Include="Employee.h" />
+    <ClInclude Include="Explorer.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="File2.h" />
     <ClInclude Include="Folders.h" />
