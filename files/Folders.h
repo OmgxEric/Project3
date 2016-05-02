@@ -13,13 +13,13 @@ private:
 
 public:
 	//creates folder name and map of file list for root folder
-	Folders(std::string name)
+	const Folders(std::string name)
 	{
 		folderName = name;
 		filesInFolder;
 	}
 	//creates folder name and map of file list for subfolders
-	Folders(std::string path, std::string name)
+	const Folders(std::string path, std::string name)
 	{
 		folderName = name;
 		folderPath = path + "/" + folderName;
@@ -36,6 +36,14 @@ public:
 		return originalSize == filesInFolder.size();
 	}
 
+	bool removeFileFromFolder(std::string fName)
+	{
+		int originalSize = filesInFolder.size();
+
+		filesInFolder.erase(fName);
+
+		return originalSize == filesInFolder.size();
+	}
 	////for the root folder, which will not need a file path
 	//void addFolder(std::string sName)
 	//{
@@ -85,19 +93,25 @@ public:
 		return filesize;
 	}
 
-	bool operator <(Folders& folder1)
-	{
-		if (folderPath < folder1.get_folderPath())
-			return true;
-	}
+	friend bool operator<(const std::string, const Folders&) {};
 
-	bool operator =(Folders& folder1)
+	/*bool operator =(Folders& folder1)
 	{
-		if (folderPath == folder1.get_folderPath())
-			return true;
+		return folderPath == folder1.get_folderPath()
+	}*/
+
+	friend std::ostream& operator<<(std::ostream& os, const Folders& folder)
+	{
+		os << folder.folderPath << std::endl;
+		return os;
 	}
 
 	std::string get_folderName() { return folderName; }
 	std::string get_folderPath() { return folderPath; }
 	std::map < std::string, int > get_filesInFolder() { return filesInFolder; }
 };
+
+bool operator<(const std::string fL, Folders& fR)
+{
+	return fL < fR.get_folderPath();
+}

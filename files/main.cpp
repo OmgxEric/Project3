@@ -62,8 +62,8 @@ int main(){
 	fileExplorer.addFolder("Y");
 	fileExplorer.addFolder("X", "Z");
 
-	fldrs.get_left_subtree();
-	fldrs.get_right_subtree();
+	//fldrs.get_left_subtree();
+	//fldrs.get_right_subtree();
 
 	return 0;
 }
