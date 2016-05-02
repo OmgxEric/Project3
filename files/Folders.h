@@ -77,6 +77,12 @@ public:
 
 	int folderSize(AVLNode<Folders>* localroot, std::string fPath, int filesize)
 	{
+		if (localroot->left == NULL) {
+			return filesize;
+		}
+		if (localroot->right == NULL) {
+			return filesize;
+		}
 		//add all the file sizes together in the map object
 		std::map<std::string, int>::iterator it;
 
