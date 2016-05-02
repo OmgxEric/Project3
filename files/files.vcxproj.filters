@@ -27,12 +27,6 @@
     <ClInclude Include="AVL_Tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Employee.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="File.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Explorer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
