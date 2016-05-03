@@ -101,7 +101,7 @@ public:
 
 
 	friend bool operator<(const Folders& f1, const Folders& f2)
-			{
+	{
 		return f1.folderPath < f2.folderPath;
 	}
 	/*bool operator =(Folders& folder1)

@@ -91,12 +91,8 @@ public:
 	void folderAndSubfolders(AVL_Tree<Folders>* localroot, std::string fPath)
 	{
 		
-		if (localroot == NULL)
-		{
-			std::cout << "N";
+		if (localroot->is_null())
 			return;
-		}
-		std::cout << folderTree.get_left_subtree().get_data();
 		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
 		//if (localroot->data.get_folderPath().substr(0, fPath.size() - 1) == fPath)
 			std::cout << localroot->get_data() << std::endl;
