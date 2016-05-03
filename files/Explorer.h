@@ -9,7 +9,7 @@ public:
 	
 	void addFolder(std::string sName)
 	{
-		const Folders newFolder(sName);
+		Folders newFolder(sName);
 
 		if (folderTree.insert(newFolder))
 			std::cout << "Folder added successfully." << std::endl;
@@ -88,19 +88,23 @@ public:
 		return filesize;
 	}
 
-	void folderAndSubfolders(AVLNode<Folders>* localroot, std::string fPath)
+	void folderAndSubfolders(AVL_Tree<Folders>* localroot, std::string fPath)
 	{
+		
 		if (localroot == NULL)
 		{
-			std::cout << "N" << std::endl;
+			std::cout << "N";
 			return;
 		}
+		std::cout << folderTree.get_left_subtree().get_data();
 		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
 		//if (localroot->data.get_folderPath().substr(0, fPath.size() - 1) == fPath)
-			std::cout << localroot->data.get_folderPath() << std::endl;
-		folderAndSubfolders(localroot->left, fPath);
-		folderAndSubfolders(localroot->right, fPath);
+			std::cout << localroot->get_data() << std::endl;
+		folderAndSubfolders(&localroot->get_left_subtree(), fPath);
+		folderAndSubfolders(&localroot->get_right_subtree(), fPath);
+		return;
 	}
 
+	AVLNode<Folders> getNode() {}
 	AVL_Tree<Folders> get_folderTree() { return folderTree; }
 };

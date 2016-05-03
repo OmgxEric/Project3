@@ -63,9 +63,9 @@ int main(){
 	fileExplorer.addFolder("X", "Z");
 
 	Folders rootFldr("X");
-	AVLNode<Folders> fPtr = fileExplorer.get_folderTree().find(rootFldr);
+	AVLNode<Folders> fPtr = fileExplorer.get_folderTree().get_data();
 	//currently not working. The above code creates a new AVLNode based on the data from the find() function. We need to find the actual AVLNode
-	fileExplorer.folderAndSubfolders(&fPtr, "X");
+	fileExplorer.folderAndSubfolders(&fileExplorer.get_folderTree(), "X");
 
 	system("PAUSE");
 	return 0;
