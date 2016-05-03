@@ -21,6 +21,7 @@ public:
 	Folders(std::string name)
 	{
 		folderName = name;
+		folderPath = name;
 		filesInFolder;
 	}
 	//creates folder name and map of file list for subfolders
@@ -71,32 +72,33 @@ public:
 	//		std::cout << "Folder created." << std::endl;
 	//}
 
-	void folderSizewrapper(std::string path) 
-	{
-		int filesize = 0;
-		Folders sFolder(path);
+	//void folderSizewrapper(std::string path) 
+	//{
+	//	int filesize = 0;
+	//	Folders sFolder(path);
 
-		AVLNode<Folders> originFolder = folderTree.find(sFolder);
-		folderSize(&originFolder, path, filesize);
-	}
+	//	AVLNode<Folders> originFolder = folderTree.find(sFolder);
+	//	folderSize(&originFolder, path, filesize);
+	//}
 
-	int folderSize(AVLNode<Folders>* localroot, std::string fPath, int filesize)
-	{
-		//add all the file sizes together in the map object
-		std::map<std::string, int>::iterator it;
+	//int folderSize(AVLNode<Folders>* localroot, std::string fPath, int filesize)
+	//{
+	//	//add all the file sizes together in the map object
+	//	std::map<std::string, int>::iterator it;
 
-		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
-		if (localroot->data.get_folderPath().substr(0,fPath.size()-1) == fPath)
-		{
-			for (it = filesInFolder.begin(); it != filesInFolder.end(); it++)
-			{
-				it->second += filesize;
-			}
-		}
-		folderSize(localroot->left, fPath, filesize);
-		folderSize(localroot->right, fPath, filesize);
-		return filesize;
-	}
+	//	//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
+	//	if (localroot->data.get_folderPath().substr(0,fPath.size()-1) == fPath)
+	//	{
+	//		for (it = filesInFolder.begin(); it != filesInFolder.end(); it++)
+	//		{
+	//			it->second += filesize;
+	//		}
+	//	}
+	//	folderSize(localroot->left, fPath, filesize);
+	//	folderSize(localroot->right, fPath, filesize);
+	//	return filesize;
+	//}
+
 
 	friend bool operator<(const Folders& f1, const Folders& f2)
 	{
@@ -115,6 +117,7 @@ public:
 
 	const std::string get_folderName() { return folderName; }
 	const std::string get_folderPath() { return folderPath; }
+	
 	std::map < std::string, int > get_filesInFolder() { return filesInFolder; }
 };
 
