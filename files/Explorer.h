@@ -4,13 +4,12 @@ class Explorer
 {
 private:
 	AVL_Tree<Folders> folderTree;
-	AVL_Tree<Folders>* folderptr;
 
 public:
 	
 	void addFolder(std::string sName)
 	{
-		Folders newFolder(sName);
+		const Folders newFolder(sName);
 
 		if (folderTree.insert(newFolder))
 			std::cout << "Folder added successfully." << std::endl;
@@ -61,4 +60,47 @@ public:
 		else
 			std::cout << "File deleted successfully." << std::endl;
 	}
+
+	void folderSizewrapper(std::string path)
+	{
+		int filesize = 0;
+		Folders sFolder(path);
+
+		AVLNode<Folders> originFolder = folderTree.find(sFolder);
+		folderSize(&originFolder, path, filesize);
+	}
+
+	int folderSize(AVLNode<Folders>* localroot, std::string fPath, int filesize)
+	{
+		//add all the file sizes together in the map object
+		std::map<std::string, int>::iterator it;
+
+		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
+		if (localroot->data.get_folderPath().substr(0, fPath.size() - 1) == fPath)
+		{
+			for (it = localroot->data.get_filesInFolder().begin(); it != localroot->data.get_filesInFolder().end(); it++)
+			{
+				it->second += filesize;
+			}
+		}
+		folderSize(localroot->left, fPath, filesize);
+		folderSize(localroot->right, fPath, filesize);
+		return filesize;
+	}
+
+	void folderAndSubfolders(AVLNode<Folders>* localroot, std::string fPath)
+	{
+		if (localroot == NULL)
+		{
+			std::cout << "N" << std::endl;
+			return;
+		}
+		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
+		//if (localroot->data.get_folderPath().substr(0, fPath.size() - 1) == fPath)
+			std::cout << localroot->data.get_folderPath() << std::endl;
+		folderAndSubfolders(localroot->left, fPath);
+		folderAndSubfolders(localroot->right, fPath);
+	}
+
+	AVL_Tree<Folders> get_folderTree() { return folderTree; }
 };
