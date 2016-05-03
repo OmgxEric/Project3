@@ -56,14 +56,14 @@ int main(){
 	//AVL_Tree<string> left_subtree = AVL.get_left_subtree();
 
 	Explorer fileExplorer;
-	AVL_Tree<Folders> fldrs;
 
 	fileExplorer.addFolder("X");
 	fileExplorer.addFolder("Y");
 	fileExplorer.addFolder("X", "Z");
 
-	//fldrs.get_left_subtree();
-	//fldrs.get_right_subtree();
+	fileExplorer.get_folderTree().get_left_subtree();
+	fileExplorer.get_folderTree().get_right_subtree();
 
+	system("PAUSE");
 	return 0;
 }

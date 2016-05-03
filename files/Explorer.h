@@ -61,4 +61,6 @@ public:
 		else
 			std::cout << "File deleted successfully." << std::endl;
 	}
+
+	AVL_Tree<Folders> get_folderTree() { return folderTree; }
 };

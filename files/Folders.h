@@ -12,14 +12,19 @@ private:
 	std::map <std::string, int> filesInFolder;
 
 public:
+	Folders() 
+	{
+		folderName = "/";
+	}
+
 	//creates folder name and map of file list for root folder
-	const Folders(std::string name)
+	Folders(std::string name)
 	{
 		folderName = name;
 		filesInFolder;
 	}
 	//creates folder name and map of file list for subfolders
-	const Folders(std::string path, std::string name)
+	Folders(std::string path, std::string name)
 	{
 		folderName = name;
 		folderPath = path + "/" + folderName;
@@ -93,8 +98,10 @@ public:
 		return filesize;
 	}
 
-	friend bool operator<(const std::string, const Folders&) {};
-
+	friend bool operator<(const Folders& f1, const Folders& f2)
+	{
+		return f1.folderPath < f2.folderPath;
+	}
 	/*bool operator =(Folders& folder1)
 	{
 		return folderPath == folder1.get_folderPath()
@@ -106,12 +113,8 @@ public:
 		return os;
 	}
 
-	std::string get_folderName() { return folderName; }
-	std::string get_folderPath() { return folderPath; }
+	const std::string get_folderName() { return folderName; }
+	const std::string get_folderPath() { return folderPath; }
 	std::map < std::string, int > get_filesInFolder() { return filesInFolder; }
 };
 
-bool operator<(const std::string fL, Folders& fR)
-{
-	return fL < fR.get_folderPath();
-}
