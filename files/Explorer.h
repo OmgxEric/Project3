@@ -21,7 +21,7 @@ public:
 
 	void addFolder(std::string sPath, std::string sName)
 	{
-		Folders newFolder(sPath+"/"+sName);
+		Folders newFolder(sPath, sName);
 
 		if (folderTree.insert(newFolder))
 			std::cout << "Folder added successfully." << std::endl;
@@ -61,7 +61,7 @@ public:
 
 	void deleteFolder(std::string dPath, std::string dName)
 	{
-		Folders delFolder(dPath+"/"+dName);
+		Folders delFolder(dPath, dName);
 
 		if (folderTree.erase(delFolder))
 		{

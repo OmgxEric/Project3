@@ -10,7 +10,7 @@ private:
 		,folderPath, filePath;
 	AVL_Tree<Folders> folderTree;
 	std::map <std::string, File> filesInFolder;
-	int folderSize;
+	int folderSize = 0;
 
 public:
 	Folders() 
@@ -24,18 +24,18 @@ public:
 		folderName = name;
 		folderPath = "";
 		filePath = name;
-		folderSize = 0;
-		filesInFolder;
+		&folderSize;
+		&filesInFolder;
 	}
 	//creates folder name and map of file list for subfolders
-	//Folders(std::string& path, std::string& name)
-	//{
-	//	folderName = name;
-	//	folderPath = path;
-	//	filePath = path + "/" + name;
-	//	folderSize = 0;
-	//	filesInFolder;
-	//}
+	Folders(std::string& path, std::string& name)
+	{
+		folderName = name;
+		folderPath = path;
+		filePath = path + "/" + name;
+		&folderSize;
+		&filesInFolder;
+	}
 
 	//inserts file name and size into map object with the file name as the ID
 	bool addFileToFolder(std::string& fName, int& fSize)
@@ -63,7 +63,7 @@ public:
 	{
 		if (f1.folderPath.size() != f2.folderPath.size())
 			return f1.folderPath.size() < f2.folderPath.size();
-		else if (f1.folderPath != f2.folderPath)
+		if (f1.folderPath != f2.folderPath)
 			return f1.folderPath < f2.folderPath;
 		else 
 			return f1.filePath < f2.filePath;

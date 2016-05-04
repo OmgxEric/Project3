@@ -27,9 +27,9 @@ int main(){
 		{
 		case 1:
 			cout << "Please enter the name of the folder to be added: ";
-			//cin.ignore();	//stops extracting characters up to end of file at its current state
-			//getline(cin, folderName);
-			cin >> folderName;
+			cin.ignore();	//stops extracting characters up to end of file at its current state
+			getline(cin, folderName);
+
 			do
 			{
 				cout << "Does this folder have a parent folder? (Y or N) ";
@@ -82,12 +82,13 @@ int main(){
 
 			cout << "Please enter the file's size (integer value, no units): ";
 			cin >> fileSize;
-
-			while (folderPath == "") {
+			do
+			{
 				cout << "Please enter the folder pathway, including the name of the folder containing the file (Format: Folder/subfolder): ";
 				cin.ignore();
 				getline(cin, folderPath);
-			}
+			} while (folderPath == "");
+
 			fileExplorer.addFile(folderPath, fileName, fileSize);
 			break;
 		case 4:
@@ -103,7 +104,7 @@ int main(){
 			sFile = fileExplorer.getFile(folderPath, fileName);
 
 			if (sFile.get_fileName().empty())
-				cout << "File not found!" << endl;
+				cout << "File not found." << endl;
 			else
 				cout << "File Name: " << sFile.get_fileName()
 				<< "\t|\tFile Size: " << sFile.get_fileSize();
