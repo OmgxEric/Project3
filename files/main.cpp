@@ -46,7 +46,7 @@ int main(){
 					fileExplorer.addFolder(folderName);
 				else
 					cout << "Invalid entry." << endl;
-
+				//repeats while loop if none of the appropriate responses were used
 			} while (pFolder != "Y" && pFolder != "y" && pFolder != "yes" && pFolder != "Yes" && pFolder != "YES"
 				&& pFolder != "N" && pFolder != "n" && pFolder != "no" && pFolder != "No" && pFolder != "NO");
 			break;
