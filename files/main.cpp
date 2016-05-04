@@ -80,9 +80,9 @@ int main(){
 			cin.ignore();
 			getline(cin, fileName);
 
-			cout << "Please enter the file's size (integer value, no units): ";
-			cin >> fileSize;
-
+				cout << "Please enter the file's size (integer value, no units): ";
+				cin >> fileSize;
+			
 			while (folderPath == "") {
 				cout << "Please enter the folder pathway, including the name of the folder containing the file (Format: Folder/subfolder): ";
 				cin.ignore();
