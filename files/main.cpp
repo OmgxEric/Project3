@@ -56,8 +56,26 @@ int main(){
 	//AVL_Tree<string> left_subtree = AVL.get_left_subtree();
 
 	Explorer fileExplorer;
-	Explorer* ePtr;
 
+	int selection = 0;
+	while (selection > 6 || selection < 1)
+	{
+		std::cout << "Please select an option from the list below:\n"
+			<< "1 - Add Folder\n"
+			<< "2 - Delete Folder\n"
+			<< "3 - Add File\n"
+			<< "4 - Retrieve One File\n"
+			<< "5 - Retrieve Multiple Files\n"
+			<< "6 - Add Folder" << std::endl;
+		std::cin >> selection;
+
+		if (selection > 6 || selection < 1)
+		{
+			std::cout << "Invalid selection. Please enter a value from the list above: ";
+			std::cin >> selection;
+		}
+		system("CLS");
+	}
 	fileExplorer.addFolder("X");
 	fileExplorer.addFolder("Y");
 	fileExplorer.addFolder("X", "Z");
