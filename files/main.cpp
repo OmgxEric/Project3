@@ -8,7 +8,6 @@ int main(){
 	Explorer fileExplorer;
 	string folderName, fileName, folderPath, pFolder;
 	int fileSize, selection = 0;
-	bool repeat = 0;
 	File sFile;
 	list<File> files;
 	list<File>::iterator filesItr;
@@ -27,79 +26,76 @@ int main(){
 		switch (selection)
 		{
 		case 1:
-			cout << "\nPlease enter the name of the folder to be added: ";
+			cout << "Please enter the name of the folder to be added: ";
+			cin.ignore();	//stops extracting characters up to end of file at its current state
 			getline(cin, folderName);
 
-			cout << "Does this folder have a parent folder? (Y or N) ";
-			cin >> pFolder;
 			do
 			{
+				cout << "Does this folder have a parent folder? (Y or N) ";
+				cin >> pFolder;
+
 				if (pFolder == "Y" || pFolder == "y" || pFolder == "yes" || pFolder == "Yes" || pFolder == "YES")
 				{
 					cout << "Please enter the folder pathway, excluding the folder name (Format: Folder/subfolder): ";
+					cin.ignore();
 					getline(cin, folderPath);
-
 					fileExplorer.addFolder(folderPath, folderName);
-					repeat = 0;
 				}
 				else if (pFolder == "N" || pFolder == "n" || pFolder == "no" || pFolder == "No" || pFolder == "NO")
-				{
 					fileExplorer.addFolder(folderName);
-					repeat = 0;
-				}
 				else
-				{
-					cout << "Invalid entry. Please enter Y or N: ";
-					cin >> pFolder;
-					repeat = 1;
-				}
-			} while (repeat = 1);
+					cout << "Invalid entry." << endl;
+
+			} while (pFolder != "Y" && pFolder != "y" && pFolder != "yes" && pFolder != "Yes" && pFolder != "YES"
+				&& pFolder != "N" && pFolder != "n" && pFolder != "no" && pFolder != "No" && pFolder != "NO");
 			break;
 		case 2:
-			cout << "\nPlease enter the name of the folder to be deleted: ";
+			cout << "Please enter the name of the folder to be deleted: ";
+			cin.ignore();
 			getline(cin, folderName);
 
-			cout << "Does this folder have a parent folder? (Y or N) ";
-			cin >> pFolder;
 			do
 			{
+				cout << "Does this folder have a parent folder? (Y or N) ";
+				cin >> pFolder;
+
 				if (pFolder == "Y" || pFolder == "y" || pFolder == "yes" || pFolder == "Yes" || pFolder == "YES")
 				{
 					cout << "Please enter the folder pathway, excluding the folder name (Format: Folder/subfolder): ";
+					cin.ignore();
 					getline(cin, folderPath);
 					fileExplorer.deleteFolder(folderPath, folderName);
-					repeat = 0;
 				}
 				else if (pFolder == "N" || pFolder == "n" || pFolder == "no" || pFolder == "No" || pFolder == "NO")
-				{
 					fileExplorer.deleteFolder(folderName);
-					repeat = 0;
-				}
 				else
-				{
-					cout << "Invalid entry. Please enter Y or N: ";
-					cin >> pFolder;
-					repeat = 1;
-				}
-			} while (repeat = 1);
+					cout << "Invalid entry." << endl;
+
+			} while (pFolder != "Y" && pFolder != "y" && pFolder != "yes" && pFolder != "Yes" && pFolder != "YES"
+				&& pFolder != "N" && pFolder != "n" && pFolder != "no" && pFolder != "No" && pFolder != "NO");
 			break;
 		case 3:
-			cout << "\nPlease enter the name of the file to be added: ";
+			cout << "Please enter the name of the file to be added: ";
+			cin.ignore();
 			getline(cin, fileName);
 
 			cout << "Please enter the file's size (integer value, no units): ";
 			cin >> fileSize;
 
 			cout << "Please enter the folder pathway, including the name of the folder containing the file (Format: Folder/subfolder): ";
+			cin.ignore();
 			getline(cin, folderPath);
 
 			fileExplorer.addFile(folderPath, fileName, fileSize);
 			break;
 		case 4:
-			cout << "\nPlease enter the name of the file to be displayed: ";
+			cout << "Please enter the name of the file to be displayed: ";
+			cin.ignore();
 			getline(cin, fileName);
 
 			cout << "Please enter the folder pathway, including the name of the folder containing the file (Format: Folder/subfolder): ";
+			cin.ignore();
 			getline(cin, folderPath);
 
 			//retrieves single file
@@ -112,7 +108,8 @@ int main(){
 				<< "\t|\tFile Size: " << sFile.get_fileSize();
 			break;
 		case 5:
-			cout << "\nPlease enter search term for the file query: ";
+			cout << "Please enter search term for the file query: ";
+			cin.ignore();
 			getline(cin, fileName);
 
 			files = fileExplorer.getFiles(&fileExplorer.get_folderTree(), fileName);
@@ -127,10 +124,12 @@ int main(){
 			}
 			break;
 		case 6:
-			cout << "\nPlease enter the name of the file to be deleted: ";
+			cout << "Please enter the name of the file to be deleted: ";
+			cin.ignore();
 			getline(cin, fileName);
 
 			cout << "Please enter the folder pathway, including the name of the folder containing the file (Format: Folder/subfolder): ";
+			cin.ignore();
 			getline(cin, folderPath);
 
 			fileExplorer.deleteFile(folderPath, fileName);
