@@ -12,6 +12,7 @@ public:
 	{
 		Folders newFolder(sName);
 
+		//insert folder into tree
 		if (folderTree.insert(newFolder))
 			std::cout << "Folder added successfully." << std::endl;
 		else
@@ -36,7 +37,11 @@ public:
 		if (folderTree.find(fldr).addFileToFolder(fName, fSize))
 			std::cout << "File already exists! Please use another name for the file." << std::endl;
 		else
+		{
 			std::cout << "File added successfully." << std::endl;
+			//after adding file, recalculate the all folders sizes
+			folderSizewrapper();
+		}
 	}
 
 	void deleteFolder(std::string dName)
@@ -44,7 +49,11 @@ public:
 		Folders delFolder(dName);
 
 		if (folderTree.erase(delFolder))
+		{
 			std::cout << "Folder deleted successfully." << std::endl;
+			//after deleting the folder, recalculate the all folders sizes
+			folderSizewrapper();
+		}
 		else
 			std::cout << "Folder does not exist! Please search for another folder name." << std::endl;
 	}
@@ -54,7 +63,10 @@ public:
 		Folders delFolder(dPath, dName);
 
 		if (folderTree.erase(delFolder))
+		{
 			std::cout << "Folder deleted successfully." << std::endl;
+			folderSizewrapper();
+		}
 		else
 			std::cout << "Folder does not exist! Please search for another folder name." << std::endl;
 	}
@@ -67,19 +79,24 @@ public:
 		if (folderTree.find(fldr).removeFileFromFolder(fName))
 			std::cout << "File does not exist! Please enter another file name." << std::endl;
 		else
+		{
 			std::cout << "File deleted successfully." << std::endl;
+			//after deleting the file, recalculate the all folders sizes
+			folderSizewrapper();
+		}
 	}
 
-	int folderSizewrapper(std::string path)
+	void folderSizewrapper()
 	{
+		//initialize file size as zero and assign NULL to the pathway so it starts at the root folder
 		int filesize = 0;
-		return folderSize(&folderTree, path, filesize);
+		folderSize(&folderTree, NULL, filesize);
 	}
 
-	int folderSize(AVL_Tree<Folders>* localroot, std::string fPath, int filesize)
+	void folderSize(AVL_Tree<Folders>* localroot, std::string fPath, int filesize)
 	{
 		if (localroot->is_null())
-			return 0;
+			return;
 		
 		//add all the file sizes together in the map object
 		std::map<std::string, File>::iterator it;
@@ -93,9 +110,12 @@ public:
 				filesize += it->second.get_fileSize();
 			}
 		}
+		//update fPath to include only appropriate subfolders as it transverses the tree
+		fPath = tempFldr.get_filePath();
 		folderSize(&localroot->get_left_subtree(), fPath, filesize);
 		folderSize(&localroot->get_right_subtree(), fPath, filesize);
-		return filesize;
+		//update file size for folder
+		tempFldr.set_folderSize(filesize);
 	}
 
 	File getFile(std::string path, std::string fName) 

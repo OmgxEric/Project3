@@ -10,6 +10,7 @@ private:
 		,folderPath, filePath;
 	AVL_Tree<Folders> folderTree;
 	std::map <std::string, File> filesInFolder;
+	int folderSize;
 
 public:
 	Folders() 
@@ -23,6 +24,7 @@ public:
 		folderName = name;
 		folderPath = "";
 		filePath = name;
+		folderSize = 0;
 		filesInFolder;
 	}
 	//creates folder name and map of file list for subfolders
@@ -31,6 +33,7 @@ public:
 		folderName = name;
 		folderPath = path;
 		filePath = path + "/" + name;
+		folderSize = 0;
 		filesInFolder;
 	}
 
@@ -68,13 +71,15 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const Folders& folder)
 	{
-		os << folder.filePath << std::endl;
+		os << "Path: " << folder.filePath << "\t|\tSize: " << folder.folderSize;
 		return os;
 	}
 
 	const std::string get_folderName() { return folderName; }
 	const std::string get_folderPath() { return folderPath; }
 	const std::string get_filePath() { return filePath; }
+	int get_folderSize() { return folderSize; }
 	std::map < std::string, File > get_filesInFolder() { return filesInFolder; }
+	void set_folderSize(int fSize) { folderSize = fSize; }
 };
 
