@@ -21,7 +21,7 @@ public:
 
 	void addFolder(std::string sPath, std::string sName)
 	{
-		Folders newFolder(sPath, sName);
+		Folders newFolder(sPath+"/"+sName);
 
 		if (folderTree.insert(newFolder))
 			std::cout << "Folder added successfully." << std::endl;
@@ -46,6 +46,7 @@ public:
 
 	void deleteFolder(std::string dName)
 	{
+		//create temp folder value to look for in the folder tree
 		Folders delFolder(dName);
 
 		if (folderTree.erase(delFolder))
@@ -60,7 +61,7 @@ public:
 
 	void deleteFolder(std::string dPath, std::string dName)
 	{
-		Folders delFolder(dPath, dName);
+		Folders delFolder(dPath+"/"+dName);
 
 		if (folderTree.erase(delFolder))
 		{
@@ -85,12 +86,12 @@ public:
 			folderSizewrapper();
 		}
 	}
-
+	//update folder size
 	void folderSizewrapper()
 	{
 		//initialize file size as zero and assign NULL to the pathway so it starts at the root folder
 		int filesize = 0;
-		folderSize(&folderTree, NULL, filesize);
+		folderSize(&folderTree, "", filesize);
 	}
 
 	void folderSize(AVL_Tree<Folders>* localroot, std::string fPath, int filesize)
@@ -101,11 +102,10 @@ public:
 		//add all the file sizes together in the map object
 		std::map<std::string, File>::iterator it;
 		Folders tempFldr = localroot->get_data();
-
 		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
 		if (tempFldr.get_filePath().substr(0, fPath.size()) == fPath)
 		{
-			for (it = tempFldr.get_filesInFolder().begin(); it != tempFldr.get_filesInFolder().end(); it++)
+			for (it = tempFldr.get_filesInFolder()->begin(); it != tempFldr.get_filesInFolder()->end(); it++)
 			{
 				filesize += it->second.get_fileSize();
 			}
@@ -121,10 +121,9 @@ public:
 	File getFile(std::string path, std::string fName) 
 	{
 		Folders fldr(path);
-
 		//locates the fldr value in the folderTree, opens the filesInFolder map value, finds the file name,
 		//and returns the associated file
-		return folderTree.find(fldr).get_filesInFolder().find(fName)->second;
+		return folderTree.find(fldr).get_filesInFolder()->find(fName)->second;
 	}
 
 	std::list<File> getFilesWrapper(std::string sQuery)
@@ -138,10 +137,10 @@ public:
 		if (!localroot->is_null())
 		{
 			Folders tempFldr = localroot->get_data();
-			std::map <std::string, File>::iterator itr = tempFldr.get_filesInFolder().begin();
+			std::map <std::string, File>::iterator itr = tempFldr.get_filesInFolder()->begin();
 
 			//NOTE: consider moving this map search to Folders.h
-			for (itr; itr != tempFldr.get_filesInFolder().end(); itr++)
+			for (itr; itr != tempFldr.get_filesInFolder()->end(); itr++)
 			{
 				if (itr->first.size() >= query.size())
 				{

@@ -19,7 +19,7 @@ public:
 	}
 
 	//creates folder name and map of file list for root folder
-	Folders(std::string name)
+	Folders(std::string& name)
 	{
 		folderName = name;
 		folderPath = "";
@@ -28,17 +28,17 @@ public:
 		filesInFolder;
 	}
 	//creates folder name and map of file list for subfolders
-	Folders(std::string path, std::string name)
-	{
-		folderName = name;
-		folderPath = path;
-		filePath = path + "/" + name;
-		folderSize = 0;
-		filesInFolder;
-	}
+	//Folders(std::string& path, std::string& name)
+	//{
+	//	folderName = name;
+	//	folderPath = path;
+	//	filePath = path + "/" + name;
+	//	folderSize = 0;
+	//	filesInFolder;
+	//}
 
 	//inserts file name and size into map object with the file name as the ID
-	bool addFileToFolder(std::string fName, int fSize)
+	bool addFileToFolder(std::string& fName, int& fSize)
 	{
 		int originalSize = filesInFolder.size();
 		File newFile(fName, fSize);
@@ -48,7 +48,7 @@ public:
 		return originalSize == filesInFolder.size();
 	}
 
-	bool removeFileFromFolder(std::string fName)
+	bool removeFileFromFolder(std::string& fName)
 	{
 		int originalSize = filesInFolder.size();
 
@@ -66,7 +66,7 @@ public:
 		else if (f1.folderPath != f2.folderPath)
 			return f1.folderPath < f2.folderPath;
 		else 
-			return f1.folderName < f2.folderName;
+			return f1.filePath < f2.filePath;
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const Folders& folder)
@@ -79,7 +79,7 @@ public:
 	const std::string get_folderPath() { return folderPath; }
 	const std::string get_filePath() { return filePath; }
 	int get_folderSize() { return folderSize; }
-	std::map < std::string, File > get_filesInFolder() { return filesInFolder; }
-	void set_folderSize(int fSize) { folderSize = fSize; }
+	std::map < std::string, File >* get_filesInFolder() { return &filesInFolder; }
+	void set_folderSize(int& fSize) { folderSize = fSize; }
 };
 
