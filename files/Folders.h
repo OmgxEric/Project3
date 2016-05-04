@@ -102,7 +102,10 @@ public:
 
 	friend bool operator<(const Folders& f1, const Folders& f2)
 	{
-		return f1.folderPath < f2.folderPath;
+		if (f1.folderPath.size() < f2.folderPath.size())
+			return true;
+		else
+			return f1.folderPath < f2.folderPath;
 	}
 	/*bool operator =(Folders& folder1)
 	{

@@ -38,6 +38,16 @@ public:
 			std::cout << "File added successfully." << std::endl;
 	}
 
+	void deleteFolder(std::string dName)
+	{
+		Folders delFolder(dName);
+
+		if (folderTree.erase(delFolder))
+			std::cout << "Folder deleted successfully." << std::endl;
+		else
+			std::cout << "Folder does not exist! Please search for another folder name." << std::endl;
+	}
+
 	void deleteFolder(std::string dPath, std::string dName)
 	{
 		Folders delFolder(dPath, dName);
