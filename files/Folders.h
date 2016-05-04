@@ -21,22 +21,21 @@ public:
 	//creates folder name and map of file list for root folder
 	Folders(std::string& name)
 	{
-		folderName = name;
-		folderPath = "";
+		int spos = name.find_last_of('/');
+		if (spos > -1)
+		{
+			folderName = name.substr(spos, name.size() - 1);
+			folderPath = name.substr(0, spos);
+		}
+		else
+		{
+			folderName = name;
+			folderPath = "";
+		}
 		filePath = name;
 		&folderSize;
 		&filesInFolder;
 	}
-	//creates folder name and map of file list for subfolders
-	Folders(std::string& path, std::string& name)
-	{
-		folderName = name;
-		folderPath = path;
-		filePath = path + "/" + name;
-		&folderSize;
-		&filesInFolder;
-	}
-
 	//inserts file name and size into map object with the file name as the ID
 	bool addFileToFolder(std::string& fName, int& fSize)
 	{
