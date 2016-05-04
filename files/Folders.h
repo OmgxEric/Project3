@@ -7,7 +7,7 @@ class Folders
 {
 private:
 	std::string folderName
-		, folderPath;
+		,folderPath, filePath;
 	AVL_Tree<Folders> folderTree;
 	std::map <std::string, File> filesInFolder;
 
@@ -21,14 +21,16 @@ public:
 	Folders(std::string name)
 	{
 		folderName = name;
-		folderPath = name;
+		folderPath = "";
+		filePath = name;
 		filesInFolder;
 	}
 	//creates folder name and map of file list for subfolders
 	Folders(std::string path, std::string name)
 	{
 		folderName = name;
-		folderPath = path + "/" + folderName;
+		folderPath = path;
+		filePath = path + "/" + name;
 		filesInFolder;
 	}
 
@@ -56,21 +58,23 @@ public:
 	//then compares the strings themselves
 	friend bool operator<(const Folders& f1, const Folders& f2)
 	{
-		if (f1.folderPath.size() < f2.folderPath.size())
-			return true;
-		else
+		if (f1.folderPath.size() != f2.folderPath.size())
+			return f1.folderPath.size() < f2.folderPath.size();
+		else if (f1.folderPath != f2.folderPath)
 			return f1.folderPath < f2.folderPath;
+		else 
+			return f1.folderName < f2.folderName;
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const Folders& folder)
 	{
-		os << folder.folderPath << std::endl;
+		os << folder.filePath << std::endl;
 		return os;
 	}
 
 	const std::string get_folderName() { return folderName; }
 	const std::string get_folderPath() { return folderPath; }
-	
+	const std::string get_filePath() { return filePath; }
 	std::map < std::string, File > get_filesInFolder() { return filesInFolder; }
 };
 

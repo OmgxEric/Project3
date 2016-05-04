@@ -112,7 +112,7 @@ int main(){
 			cin.ignore();
 			getline(cin, fileName);
 
-			files = fileExplorer.getFiles(&fileExplorer.get_folderTree(), fileName);
+			files = fileExplorer.getFilesWrapper(fileName);
 			if (files.empty())
 				cout << "No matches found that match your query." << endl;
 			else

@@ -5,7 +5,6 @@ class Explorer
 {
 private:
 	AVL_Tree<Folders> folderTree;
-	std::list<File> fileList;
 
 public:
 	
@@ -71,10 +70,10 @@ public:
 			std::cout << "File deleted successfully." << std::endl;
 	}
 
-	void folderSizewrapper(std::string path)
+	int folderSizewrapper(std::string path)
 	{
 		int filesize = 0;
-		folderSize(&folderTree, path, filesize);
+		return folderSize(&folderTree, path, filesize);
 	}
 
 	int folderSize(AVL_Tree<Folders>* localroot, std::string fPath, int filesize)
@@ -87,7 +86,7 @@ public:
 		Folders tempFldr = localroot->get_data();
 
 		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
-		if (tempFldr.get_folderPath().substr(0, fPath.size()) == fPath)
+		if (tempFldr.get_filePath().substr(0, fPath.size()) == fPath)
 		{
 			for (it = tempFldr.get_filesInFolder().begin(); it != tempFldr.get_filesInFolder().end(); it++)
 			{
@@ -108,7 +107,13 @@ public:
 		return folderTree.find(fldr).get_filesInFolder().find(fName)->second;
 	}
 
-	std::list<File> getFiles(AVL_Tree<Folders>* localroot, std::string query)
+	std::list<File> getFilesWrapper(std::string sQuery)
+	{
+		std::list<File> fileList;
+		return getFiles(&folderTree, sQuery, fileList);
+	}
+
+	std::list<File> getFiles(AVL_Tree<Folders>* localroot, std::string query, std::list<File>& fList)
 	{
 		if (!localroot->is_null())
 		{
@@ -121,14 +126,14 @@ public:
 				if (itr->first.size() >= query.size())
 				{
 					if (itr->first.substr(0, query.size()) == query)
-						fileList.push_back(itr->second);
+						fList.push_back(itr->second);
 				}
 			}
 		}
-		getFiles(&localroot->get_left_subtree(), query);
-		getFiles(&localroot->get_right_subtree(), query);
+		getFiles(&localroot->get_left_subtree(), query, fList);
+		getFiles(&localroot->get_right_subtree(), query, fList);
 		
-		return fileList;
+		return fList;
 	}
 
 	AVL_Tree<Folders> get_folderTree() { return folderTree; }
