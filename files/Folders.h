@@ -1,4 +1,4 @@
-#include "File2.h"
+#include "File.h"
 #include "AVL_Tree.h"
 #include <iostream>
 #include <map>
@@ -9,7 +9,7 @@ private:
 	std::string folderName
 		, folderPath;
 	AVL_Tree<Folders> folderTree;
-	std::map <std::string, int> filesInFolder;
+	std::map <std::string, File> filesInFolder;
 
 public:
 	Folders() 
@@ -36,8 +36,9 @@ public:
 	bool addFileToFolder(std::string fName, int fSize)
 	{
 		int originalSize = filesInFolder.size();
+		File newFile(fName, fSize);
 
-		filesInFolder[fName] = (fName, fSize);
+		filesInFolder[fName] = (fName, newFile);
 
 		return originalSize == filesInFolder.size();
 	}
@@ -50,56 +51,9 @@ public:
 
 		return originalSize == filesInFolder.size();
 	}
-	////for the root folder, which will not need a file path
-	//void addFolder(std::string sName)
-	//{
-	//	Folders newFolder(sName);
 
-	//	if (!folderTree.insert(newFolder))
-	//		std::cout << "Folder already exists!" << std::endl;
-	//	else
-	//		std::cout << "Folder created." << std::endl;
-	//}
-
-	////for all subfolders of the root folder
-	//void addFolder(std::string sPath, std::string sName)
-	//{
-	//	Folders newFolder(sPath, sName);
-
-	//	if (!folderTree.insert(newFolder))
-	//		std::cout << "Folder already exists!" << std::endl;
-	//	else
-	//		std::cout << "Folder created." << std::endl;
-	//}
-
-	//void folderSizewrapper(std::string path) 
-	//{
-	//	int filesize = 0;
-	//	Folders sFolder(path);
-
-	//	AVLNode<Folders> originFolder = folderTree.find(sFolder);
-	//	folderSize(&originFolder, path, filesize);
-	//}
-
-	//int folderSize(AVLNode<Folders>* localroot, std::string fPath, int filesize)
-	//{
-	//	//add all the file sizes together in the map object
-	//	std::map<std::string, int>::iterator it;
-
-	//	//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
-	//	if (localroot->data.get_folderPath().substr(0,fPath.size()-1) == fPath)
-	//	{
-	//		for (it = filesInFolder.begin(); it != filesInFolder.end(); it++)
-	//		{
-	//			it->second += filesize;
-	//		}
-	//	}
-	//	folderSize(localroot->left, fPath, filesize);
-	//	folderSize(localroot->right, fPath, filesize);
-	//	return filesize;
-	//}
-
-
+	//first compares the size of the string, allowing for shorter strings to be higher in the heirarchy
+	//then compares the strings themselves
 	friend bool operator<(const Folders& f1, const Folders& f2)
 	{
 		if (f1.folderPath.size() < f2.folderPath.size())
@@ -107,10 +61,6 @@ public:
 		else
 			return f1.folderPath < f2.folderPath;
 	}
-	/*bool operator =(Folders& folder1)
-	{
-		return folderPath == folder1.get_folderPath()
-	}*/
 
 	friend std::ostream& operator<<(std::ostream& os, const Folders& folder)
 	{
@@ -121,6 +71,6 @@ public:
 	const std::string get_folderName() { return folderName; }
 	const std::string get_folderPath() { return folderPath; }
 	
-	std::map < std::string, int > get_filesInFolder() { return filesInFolder; }
+	std::map < std::string, File > get_filesInFolder() { return filesInFolder; }
 };
 

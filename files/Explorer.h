@@ -1,9 +1,11 @@
 #include "Folders.h"
+#include <list>
 
 class Explorer
 {
 private:
 	AVL_Tree<Folders> folderTree;
+	std::list<File> fileList;
 
 public:
 	
@@ -81,7 +83,7 @@ public:
 			return 0;
 		
 		//add all the file sizes together in the map object
-		std::map<std::string, int>::iterator it;
+		std::map<std::string, File>::iterator it;
 		Folders tempFldr = localroot->get_data();
 
 		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
@@ -89,7 +91,7 @@ public:
 		{
 			for (it = tempFldr.get_filesInFolder().begin(); it != tempFldr.get_filesInFolder().end(); it++)
 			{
-				it->second += filesize;
+				filesize += it->second.get_fileSize();
 			}
 		}
 		folderSize(&localroot->get_left_subtree(), fPath, filesize);
@@ -97,20 +99,37 @@ public:
 		return filesize;
 	}
 
-	void folderAndSubfolders(AVL_Tree<Folders>* localroot, std::string fPath)
+	File getFile(std::string path, std::string fName) 
 	{
-		if (localroot->is_null())
-			return;
-		Folders tempFldr = localroot->get_data();
-		
-		//if the file at the pointer location contains fPath in its folder pathway, it is a subfolder of the folder
-		if (tempFldr.get_folderPath().substr(0, fPath.size()) == fPath)
-			std::cout << tempFldr << std::endl;
-		folderAndSubfolders(&localroot->get_left_subtree(), fPath);
-		folderAndSubfolders(&localroot->get_right_subtree(), fPath);
-		return;
+		Folders fldr(path);
+
+		//locates the fldr value in the folderTree, opens the filesInFolder map value, finds the file name,
+		//and returns the associated file
+		return folderTree.find(fldr).get_filesInFolder().find(fName)->second;
 	}
 
-	AVLNode<Folders> getNode() {}
+	std::list<File> getFiles(AVL_Tree<Folders>* localroot, std::string query)
+	{
+		if (!localroot->is_null())
+		{
+			Folders tempFldr = localroot->get_data();
+			std::map <std::string, File>::iterator itr = tempFldr.get_filesInFolder().begin();
+
+			//NOTE: consider moving this map search to Folders.h
+			for (itr; itr != tempFldr.get_filesInFolder().end(); itr++)
+			{
+				if (itr->first.size() >= query.size())
+				{
+					if (itr->first.substr(0, query.size()) == query)
+						fileList.push_back(itr->second);
+				}
+			}
+		}
+		getFiles(&localroot->get_left_subtree(), query);
+		getFiles(&localroot->get_right_subtree(), query);
+		
+		return fileList;
+	}
+
 	AVL_Tree<Folders> get_folderTree() { return folderTree; }
 };

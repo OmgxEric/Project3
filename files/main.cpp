@@ -1,22 +1,17 @@
 
 #include <iostream>
 #include "Explorer.h"
-#include <list>
+
 using namespace std;
-
-//void add_folder(string path, string folder_name) {}
-//void delete_folder(string path, string folder_name) {}
-//void add_file(string path, string file_name, int size) {}
-//File get_file(string path, string file_name) {}
-//list<File> get_files(string path, string file_name){}
-//void delete_file(string path, string file_name){}
-
 
 int main(){
 	Explorer fileExplorer;
 	string folderName, fileName, folderPath, pFolder;
 	int fileSize, selection = 0;
-	bool repeat;
+	bool repeat = 0;
+	File sFile;
+	list<File> files;
+	list<File>::iterator filesItr;
 
 	cout << "Please select an option from the list below:\n"
 		<< "1 - Add Folder\n"
@@ -32,18 +27,17 @@ int main(){
 	{
 	case 1:
 		cout << "\nPlease enter the name of the folder to be added: ";
-		cin >> folderName;
-		//getline(cin, folderName);
+		getline(cin, folderName);
 
 		cout << "Does this folder have a parent folder? (Y or N) ";
 		cin >> pFolder;
-		//do
+		do
 		{
 			if (pFolder == "Y" || pFolder == "y" || pFolder == "yes" || pFolder == "Yes" || pFolder == "YES")
 			{
 				cout << "Please enter the folder pathway, excluding the folder name (Format: Folder/subfolder): ";
-				//getline(cin, folderPath);
-				cin >> folderPath;
+				getline(cin, folderPath);
+
 				fileExplorer.addFolder(folderPath, folderName);
 				repeat = 0;
 			}
@@ -58,7 +52,7 @@ int main(){
 				cin >> pFolder;
 				repeat = 1;
 			}
-		} //while (repeat = 1);
+		} while (repeat = 1);
 		break;
 	case 2:
 		cout << "\nPlease enter the name of the folder to be deleted: ";
@@ -107,14 +101,29 @@ int main(){
 		cout << "Please enter the folder pathway, including the name of the folder containing the file (Format: Folder/subfolder): ";
 		getline(cin, folderPath);
 
-		//ADD FILE DISPLAY
+		//retrieves single file
+		sFile = fileExplorer.getFile(folderPath, fileName);
+
+		if (sFile.get_fileName().empty())
+			cout << "File not found!" << endl;
+		else
+			cout << "File Name: " << sFile.get_fileName()
+				<< "\t|\tFile Size: " << sFile.get_fileSize();
 		break;
 	case 5:
 		cout << "\nPlease enter search term for the file query: ";
 		getline(cin, fileName);
 
-		cout << "Files containing search term:" << endl;
-		//ADD FILE SEARCH
+		files = fileExplorer.getFiles(&fileExplorer.get_folderTree(), fileName);
+		if (files.empty())
+			cout << "No matches found that match your query." << endl;
+		else
+		{
+			cout << "Files containing search term:";
+			for (filesItr == files.begin(); filesItr != files.end(); filesItr++)
+				cout << "\nFile Name: " << filesItr->get_fileName()
+				<< "\t|\tFile Size: " << filesItr->get_fileSize();
+		}
 		break;
 	case 6:
 		cout << "\nPlease enter the name of the file to be deleted: ";
@@ -136,14 +145,6 @@ int main(){
 		}
 		break;
 	}
-
-	//TEST COMMANDS. DELETE WHEN NOT NEEDED
-	/*fileExplorer.addFolder("X");
-	fileExplorer.addFolder("Y");
-	fileExplorer.addFolder("X", "Z");
-	Folders rootFldr("X");
-	AVLNode<Folders> fPtr = fileExplorer.get_folderTree().get_data();
-	fileExplorer.folderAndSubfolders(&fileExplorer.get_folderTree(), "X");*/
 
 	system("PAUSE");
 	return 0;
