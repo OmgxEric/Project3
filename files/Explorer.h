@@ -118,12 +118,12 @@ public:
 		tempFldr.set_folderSize(filesize);
 	}
 
-	File getFile(std::string path, std::string fName) 
+	File getFile(std::string path, std::string oneFile) 
 	{
 		Folders fldr(path);
 		//locates the fldr value in the folderTree, opens the filesInFolder map value, finds the file name,
 		//and returns the associated file
-		return folderTree.find(fldr).get_filesInFolder()->find(fName)->second;
+		return folderTree.find(fldr).get_filesInFolder()->find(oneFile)->second;
 	}
 
 	std::list<File> getFilesWrapper(std::string sQuery)

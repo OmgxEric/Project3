@@ -21,7 +21,9 @@ public:
 	//creates folder name and map of file list for root folder
 	Folders(std::string& name)
 	{
+		//finds position of last instance of the '/' to separate the folder name from the path
 		int spos = name.find_last_of('/');
+		//checks if '/' is present
 		if (spos > -1)
 		{
 			folderName = name.substr(spos, name.size() - 1);
@@ -36,6 +38,7 @@ public:
 		&folderSize;
 		&filesInFolder;
 	}
+	
 	//inserts file name and size into map object with the file name as the ID
 	bool addFileToFolder(std::string& fName, int& fSize)
 	{

@@ -8,7 +8,7 @@ private:
 	int fileSize;
 public:
 	File (){}
-	File(std::string& name, int& size)
+	File(std::string name, int size)
 	{
 		fileName = name;
 		fileSize = size;
